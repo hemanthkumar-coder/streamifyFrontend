@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAuthUser from "../hooks/useAuthUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast, { LoaderIcon } from "react-hot-toast";
+import { Navigate } from "react-router";
 import { completeOnboarding } from "../lib/api.js";
 import {
   CameraIcon,
@@ -27,9 +28,10 @@ const OnBoardPage = () => {
     mutationFn: completeOnboarding,
     onSuccess: () => {
       toast.success("Profile onboarded Successfully");
+      <Navigate to="/"/>
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
-    onError: () => {
+    onError: (error) => {
       toast.error(error.response.data.message);
     },
   });

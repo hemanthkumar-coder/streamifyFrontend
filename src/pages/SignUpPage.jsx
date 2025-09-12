@@ -1,23 +1,15 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signUp } from "../lib/api.js";
+import useSignUp from "../hooks/useSignUp.js";
 const SignUpPage = () => {
   const [signupData, setSignUpData] = useState({
     fullName: "",
     email: "",
     password: "",
   });
-  const queryClient = useQueryClient();
-  const {
-    mutate: signUpMutation,
-    isPending,
-    error,
-  } = useMutation({
-    mutationFn: signUp,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-  });
+  const {isPending,error,signUpMutation} = useSignUp()
+  
   const onHandleSignUp = (e) => {
     e.preventDefault();
     signUpMutation(signupData);
