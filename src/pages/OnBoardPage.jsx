@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAuthUser from "../hooks/useAuthUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast, { LoaderIcon } from "react-hot-toast";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { completeOnboarding } from "../lib/api.js";
 import {
   CameraIcon,
@@ -14,6 +14,7 @@ import { LANGUAGES } from "../constants/index.js";
 
 const OnBoardPage = () => {
   const { authUser } = useAuthUser();
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
     bio: authUser?.bio || "",
@@ -23,12 +24,11 @@ const OnBoardPage = () => {
     profilePic: authUser?.profilePic || "",
   });
 
-  const queryClient = useQueryClient;
+  const queryClient = useQueryClient();
   const { mutate: onBoardingMutation, isPending } = useMutation({
     mutationFn: completeOnboarding,
     onSuccess: () => {
       toast.success("Profile onboarded Successfully");
-      <Navigate to="/"/>
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
     onError: (error) => {
