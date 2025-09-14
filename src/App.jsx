@@ -98,14 +98,6 @@ const App = () => {
             isAuthenticated ? <NotificationsPage /> : <Navigate to="/login" />
           }
         ></Route>
-        <Route
-          path="chat"
-          element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}
-        ></Route>
-        <Route
-          path="/call"
-          element={isAuthenticated ? <CallPage /> : <Navigate to="/login" />}
-        ></Route>
       </Routes>
       <Toaster />
     </div>
